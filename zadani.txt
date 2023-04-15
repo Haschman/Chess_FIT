@@ -1,0 +1,29 @@
+﻿Klasická hra Šachy
+
+
+1. pro hru 2 hráčů na jednom počítači
+2. pro hru proti počítači (AI)
+
+
+Celou hru implementuji jako program v konzoli s pomocí ncurses. Veškerý pohyb po šachovnici, ale i interakce s programem jako je ukládání/načítaní hry, bude probíhat pomocí zadávání příkazů. Šachovnice bude vykreslována pomocí základních symbolů ASCII a barevného rozlišení přes ANSI escape code nebo přímo ncurses.
+
+Jelikož se bude jednat o klasické šachy, tak bude hra mimo úplně základní pravidla zohledňovat i pravidla jako je rošáda, braní mimochodem nebo proměna pěšce.
+
+Ukládání hry bude možné kdykoli během hraní. Uživatel si sám pojmenuje soubor, který uloží rozestavění figurek na šachovnici a informaci o tom, kdo je zrovna na tahu. Z tohoto souboru pak bude možné hru zpátky načíst. Souborů může existovat najednou několik.
+Hra by mohla umožňovat automatické ukládání po každém tahu. Zpřístupnila by se tím i možnost dívat se zpátky do historie tahů, případně vrátit se o několik tahů zpět. Na rychlost hry by to nemělo mít vliv, jelikož tahů nebývá ve hře mnoho a je mezi nimi určitá prodleva.
+
+Umělá inteligence bude zvolitelná, jedna varianta budou čistě náhodné tahy, další by mohla být „vylepšena“ tím, že pokaždé, když bude mít možnost, tak sebere protihráči figurku, a poslední by mohla fungovat na počítání nejvýhodnějšího tahu podle hodnoty sebratelné figurky, podle hodnoty ztráty vlastní figurky a podle hodnoty tahu, jež bude umožněn protihráči.
+
+
+
+Využití polymorfismu:
+
+Figurky budou mít všechny virtuálního předka, který bude mít parametry: název, hodnota, barva, pozice a informace, zda je figurka „naživu“. Metody, které budou implementované pro všechny figurky budou: move(), isUnderAttack() a canGoTo().
+Move() bude zajišťovat pohyb, který si zjistí z funkce canGoTo(). Speciální tahy jako rošáda nebo braní mimochodem budou používat již implementovaný pohyb, ale budou metodami pouze figurek, které je mohou používat (nebudou virtuální). Například rošádu bude mít pouze král a bude znamenat dva pohyby krále a jeden pohyb věže. Braní mimochodem bude speciální pohyb pěšce, který nemusí znát žádná jiná figurka na šachovnici.
+Metoda canGoTo() bude podle pravidel hledat místa na šachovnici, kam se může figurka zrovna přesunout.
+Metoda isUnderAttack() bude podstatná hlavně pro krále, který díky ní bude hlásit, zda došlo k šachu, ale bude důležitá i pro umělou inteligenci, která díky ní bude počítat nejvýhodnější následující tah.
+
+Metoda, kterou budou mít všechny figurky stejnou, bude: killed() a getPos(). Metoda killed() bude mít za práci odebrat figurku z vypisovatelných a zaznamenání bodů za odebrání (podle její hodnoty).
+
+
+Ovládání hry bude pomocí příkazů, které budou buď načítány z konzole (od uživatele) nebo je bude vytvářet umělá inteligence. Bude zde tedy možnost implementovat stejný proces od získání příkazu přes kontrolu pravidel po uskutečnění tahu pro uživatele i pro umělou inteligenci.

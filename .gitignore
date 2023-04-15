@@ -1,0 +1,12 @@
+# Ignore binary files
+*.out
+*.o
+Chess
+build/
+
+# Visual studio files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+.vs/
